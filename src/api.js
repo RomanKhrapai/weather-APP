@@ -9,9 +9,9 @@ export function fetchSityInfo(name) {
         return response.json();
     });
 }
-export function currentWeather(lat, lon) {
+export function fetchCurrentWeather(lat, lon) {
     return fetch(
-        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APPID}`
+        `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${APPID}&units=metric&lang=ua`
     ).then((response) => {
         if (!response.ok) {
             throw new Error(response.status);
@@ -20,9 +20,9 @@ export function currentWeather(lat, lon) {
     });
 }
 
-export function forcastFiveDay(lat, lon) {
+export function fetchForcastFiveDay(lat, lon) {
     return fetch(
-        `api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${APPID}`
+        `api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${APPID}&units=metric&lang=ua`
     ).then((response) => {
         if (!response.ok) {
             throw new Error(response.status);

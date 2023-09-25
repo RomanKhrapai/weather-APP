@@ -257,4 +257,32 @@ for (let i = 0; i < arr2.length; i += 1) {
     obj[arr2[i][3]] = out2.join("");
 }
 
-console.log(JSON.stringify(obj));
+//console.log(JSON.stringify(obj));
+
+export const formatDate = (dt) => {
+    const date = new Date(dt * 1000);
+    let dd = date.getDate();
+    if (dd < 10) dd = "0" + dd;
+
+    let mm = date.getMonth() + 1;
+    if (mm < 10) mm = "0" + mm;
+
+    let yyyy = date.getFullYear();
+
+    return dd + "." + mm + "." + yyyy;
+};
+
+export const windWay = (windDeg) => {
+    const rules = {
+        0: "Північний",
+        1: "Північно - Східний",
+        2: "Східний",
+        3: "Південно - Східний",
+        4: "Південний",
+        5: "Південно - Західний",
+        6: "Західний",
+        7: "Північно - Західний",
+    };
+    const sector = (windDeg - 23) / 45;
+    return rules[sector.toFixed()];
+};
