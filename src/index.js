@@ -12,7 +12,7 @@ import { renderPodcastForFiveDay } from "./render/renderPodcastForFiveDay.js";
 
 const refs = {
     tabs: document.querySelector(".tab-buttons"),
-    textSearch: document.querySelector(".form__input"),
+    textSearch: document.querySelector(".form-search__input"),
     buttonSearch: document.querySelector(".form-search__button"),
     sityesinfo: document.getElementById("show-land"),
     podcastInfo: document.querySelector(".tab-contents"),
