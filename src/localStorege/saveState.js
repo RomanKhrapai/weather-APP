@@ -1,5 +1,5 @@
 export const saveState = (state) => {
-    const { sity, selectedCoordinate, isOneDay, sityes } = state;
+    const { sity, selectedCoordinate, isOneDay = true, sityes } = state;
 
     if (sity) {
         localStorage.setItem("sity", sity);
@@ -7,9 +7,9 @@ export const saveState = (state) => {
     if (selectedCoordinate) {
         localStorage.setItem("selectedCoordinate", selectedCoordinate);
     }
-    if (isOneDay) {
-        localStorage.setItem("isOneDay", isOneDay);
-    }
+
+    localStorage.setItem("isOneDay", isOneDay);
+
     if (sityes) {
         localStorage.setItem("sityes", JSON.stringify(sityes));
     }

@@ -260,7 +260,34 @@ for (let i = 0; i < arr2.length; i += 1) {
 //console.log(JSON.stringify(obj));
 
 export const formatDate = (dt) => {
+    const days = {
+        0: { min: "Пн", full: "Понеділок" },
+        1: { min: "Вт", full: "Вівторок" },
+        2: { min: "Ср", full: "Середа" },
+        3: { min: "Чт", full: "Четвер" },
+        4: { min: "Пт", full: "Пятниця" },
+        5: { min: "Сб", full: "Субота" },
+        6: { min: "Нд", full: "Неділля" },
+    };
+    const monthes = {
+        0: { min: "Січ", full: "Січень" },
+        1: { min: "Лют", full: "Лютий" },
+        2: { min: "Берез", full: "Березень" },
+        3: { min: "Квіт", full: "Квітень" },
+        4: { min: "Трав", full: "Травень" },
+        5: { min: "Черв", full: "Червень" },
+        6: { min: "Лип", full: "Липень" },
+        7: { min: "Серп", full: "Серпень" },
+        8: { min: "Верес", full: "Вересень" },
+        9: { min: "Жовт", full: "Жовтень" },
+        10: { min: "Листоп", full: "Листопад" },
+        11: { min: "Груд", full: "Грудень" },
+    };
+
     const date = new Date(dt * 1000);
+    const m = monthes[date.getMonth()].min;
+    const d = days[date.getDay()].min;
+
     let dd = date.getDate();
     if (dd < 10) dd = "0" + dd;
 
@@ -269,19 +296,29 @@ export const formatDate = (dt) => {
 
     let yyyy = date.getFullYear();
 
-    return dd + "." + mm + "." + yyyy;
+    let min = date.getMinutes();
+    if (min < 10) min = "0" + min;
+
+    let Hour = date.getHours();
+    if (Hour < 10) Hour = "0" + Hour;
+
+    return [
+        dd + "." + mm + "." + yyyy,
+        d + ". " + dd + " " + m + ". " + Hour + ":" + min,
+        d + ". " + dd + " ",
+    ];
 };
 
 export const windWay = (windDeg) => {
     const rules = {
-        0: "Північний",
-        1: "Північно - Східний",
-        2: "Східний",
-        3: "Південно - Східний",
-        4: "Південний",
-        5: "Південно - Західний",
-        6: "Західний",
-        7: "Північно - Західний",
+        0: { full: "Північний", min: "Пн" },
+        1: { full: "Північно - Східний", min: "Пн - Сх" },
+        2: { full: "Східний", min: "ПСх" },
+        3: { full: "Південно - Східний", min: "Пд - Сх" },
+        4: { full: "Південний", min: "Пд" },
+        5: { full: "Південно - Західний", min: "Пд - Зх" },
+        6: { full: "Західний", min: "Зх" },
+        7: { full: "Північно - Західний", min: "Пн - Зх" },
     };
     const sector = (windDeg - 23) / 45;
     return rules[sector.toFixed()];

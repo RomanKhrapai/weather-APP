@@ -8,23 +8,26 @@ import { renderWidgetErorr } from "./render/renderWidgetErorr.js";
 import { renderLoader } from "./render/renderLoader.js";
 import { saveState } from "./localStorege/saveState.js";
 import { getState } from "./localStorege/getstate.js";
+import { renderPodcastForFiveDay } from "./render/renderPodcastForFiveDay.js";
 
 const refs = {
     tabs: document.querySelector(".tab-buttons"),
     textSearch: document.querySelector(".form__input"),
-    buttonSearch: document.querySelector(".form__search-button"),
+    buttonSearch: document.querySelector(".form-search__button"),
     sityesinfo: document.getElementById("show-land"),
     podcastInfo: document.querySelector(".tab-contents"),
+    tabContents: document.querySelectorAll(".tab-content"),
 };
 
 const state = {
     selectedCoordinate: null,
-    isOneDay: true,
+    isOneDay: false,
     sity: "",
     sityes: [],
 };
 
 const showPodcast = () => {
+    renderLoader(refs.podcastInfo);
     if (state.isOneDay) {
         renderPodcasttoday(
             state.selectedCoordinate,
@@ -33,26 +36,41 @@ const showPodcast = () => {
         );
         return;
     }
+
+    renderPodcastForFiveDay(
+        state.selectedCoordinate,
+        state.sityes,
+        refs.podcastInfo
+    );
 };
 
 const selectCoordinateClick = (e) => {
     if (e.target.tagName === "INPUT") {
         state.selectedCoordinate = e.target.id;
         saveState({ selectedCoordinate: e.target.id });
-        if (state.isOneDay) {
-            renderLoader(refs.podcastInfo);
-            showPodcast();
-        }
+
+        showPodcast();
     }
 };
 
 const tabButtonClick = (e) => {
-    const buttons = [...e.currentTarget.children];
-    buttons.forEach((button) => {
-        button.classList.remove("tab-button-active");
-    });
+    const isOneDay = e.target.dataset.time === "now" ? true : false;
+    state.isOneDay = isOneDay;
+    turnTabButton();
+    showPodcast();
+    saveState({ isOneDay });
+};
 
-    e.target.classList.add("tab-button-active");
+const turnTabButton = () => {
+    const buttons = [...refs.tabs.children];
+
+    if (!state.isOneDay) {
+        buttons[0].classList.remove("tab-button-active");
+        buttons[1].classList.add("tab-button-active");
+    } else {
+        buttons[1].classList.remove("tab-button-active");
+        buttons[0].classList.add("tab-button-active");
+    }
 };
 
 const searchSity = (e) => {
@@ -61,7 +79,6 @@ const searchSity = (e) => {
     if (searchRequest !== "") {
         fetchSityInfo(searchRequest)
             .then((data) => {
-                console.log(data);
                 if (data.length === 0) {
                     alert("Такого міста не знайдено");
                     return;
@@ -93,7 +110,6 @@ const searchSity = (e) => {
                         ".custom-radio"
                     ).checked = true;
                 }
-                renderLoader(refs.podcastInfo);
                 showPodcast();
                 saveState({
                     sityes: state.sityes,
@@ -118,9 +134,13 @@ const startRadioSelected = (coordinate) => {
     if (!coordinate) {
         return;
     }
+    if (radioButtons.length > 0) {
+        [...radioButtons].find(
+            (button) => button.id === coordinate
+        ).checked = true;
+    }
 
-    [...radioButtons].find((button) => button.id === coordinate).checked = true;
-
+    turnTabButton();
     showPodcast();
 };
 
@@ -131,5 +151,4 @@ refs.sityesinfo.addEventListener("click", selectCoordinateClick);
 Object.assign(state, getState());
 
 renderListSityes(state.sityes, state.sity, refs.sityesinfo);
-renderLoader(refs.podcastInfo);
 startRadioSelected(state.selectedCoordinate);

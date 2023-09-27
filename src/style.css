@@ -6,16 +6,35 @@
 }
 .main {
  text-align: center;  
- background-color: aquamarine; 
+ background-color: #fea50085; 
 }
 .main__input{
     height: 30px;
 
 }
+.hero{
+  background: linear-gradient(90deg,rgba(249, 166, 0, 0.1),rgba(255, 170, 1, 0.56)),50%/auto no-repeat url(/images/depositphotos_443560512-stock-photo-photos-of-sky-during-different.jpg),#feaa0244;
+}
+.form-search{
+  display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+.form-search__input{
+border-radius: 20px 0 0 20px;
+padding-left: 20px;
+border-right: none;
+}
+.form-search__button{border-radius: 0 20px 20px 0;
+padding-right: 10px;}
 
+.show-land{
+  padding:1px 40px;
+}
 
 /* Style the tab */
 .tab-buttons {
+  display: flex;
     overflow: hidden;
    /* border: 1px solid #ccc;*/
     background-color: #f1f1f1;
@@ -23,7 +42,8 @@
 
 /* Style the buttons that are used to open the tab content */
 .tab-button {
-    background-color: aquamarine;
+  flex: 1;
+    background-color: #c48e29;
     float: left;
     border: 1px solid #111111;
     border-radius: 5px 5px 0 0  ;
@@ -33,7 +53,8 @@
     transition: 0.3s;
 }
 .tab-button-active {
-  border-bottom:  1px solid aquamarine;
+  background-color: #feb020;
+  border-bottom:  1px solid #feb020;
 }
 
 .tab-button:hover {
@@ -56,6 +77,7 @@
 .form-area {
     display: flex;
     justify-content: space-evenly;
+    padding-bottom: 15px;
 }
 .custom-radio{
    
@@ -68,12 +90,15 @@
     display: inline-flex;
     align-items: center;
     user-select: none;
+    background-color: #e7e2d278;
+    padding: 5px 10px;
+    border-radius: 10px;
   }
   .custom-radio+label::before {
     content: '';
     display: inline-block;
-    width: 1em;
-    height: 1em;
+    width: 1.5em;
+    height: 1.5em;
     flex-shrink: 0;
     flex-grow: 0;
     border: 1px solid #adb5bd;
@@ -84,65 +109,82 @@
     background-size: 50% 50%;
   }
   .custom-radio:checked+label::before {
-    border-color: #0b76ef;
-    background-color: #0b76ef;
-    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%23fff' d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
+    border-color: #efb20b;
+    background-color: #a8b6c5;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath  d='M6.564.75l-3.59 3.612-1.538-1.55L0 4.26 2.974 7.25 8 2.193z'/%3e%3c/svg%3e");
   }
-  /* стили при наведении курсора на checkbox */
+  
 .custom-radio:not(:disabled):not(:checked)+label:hover::before {
-    border-color: #b3d7ff;
+    border-color: #131921;
   }
-  /* стили для активного состояния чекбокса (при нажатии на него) */
+  
   .custom-radio:not(:disabled):active+label::before {
-    background-color: #b3d7ff;
+    background-color: #d5d0c9;
     border-color: #b3d7ff;
   }
-  /* стили для чекбокса, находящегося в фокусе */
+  
   .custom-radio:focus+label::before {
     box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
   }
-  /* стили для чекбокса, находящегося в фокусе и не находящегося в состоянии checked */
+ 
   .custom-radio:focus:not(:checked)+label::before {
-    border-color: #80bdff;
+    border-color: #090b0d;
   }
-  /* стили для чекбокса, находящегося в состоянии disabled */
+ 
   .custom-radio:disabled+label::before {
     background-color: #e9ecef;
   }
 
-  .widget-now {
+  .widget {
     display: flex;
     background-image: linear-gradient(to bottom,#feb020,#ffd05c);
     padding: 10px 0px;
+    border: 1px solid #111111;
+    border-top: none;
+    height: 200px;
  
   }
-  .widget-now__layout{
+  .widget__layout{
     display: flex; 
+    flex:1;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     height: initial;
     min-height: 90px;
     padding: 0 10px 0 10px;
   }
-  .widget-now__weather-info{
+  .widget__info{
     display: flex;
     align-items: center;
     background-color: #FFF;
     padding: 0 10px;
+    border-radius: 10px;
+    margin-right: 5px;
   }
-  
+  .widget__header-date{
 
-  .widget-now__box-image{
-text-align: center;
-margin-right: 10px;
   }
-  .widget-now__image-description{
+  .info-box{
+
+  }
+
+  .widget__box-image{
+text-align: center;
+/* margin-right: 10px; */
+  }
+  .widget__image-description{
 margin: 0;
 font-weight: bold;
 margin-bottom: 10px;
   }
-  .widget-now__temperature{
+  .widget__title-date{
+margin: 0;
+padding: 0;
+font-weight: 600;
+font-size: 32px;
+  }
+  .widget__temperature{
     font-weight: 600;
     font-size: 70px;
     line-height: 1;
@@ -152,41 +194,61 @@ margin-bottom: 10px;
     letter-spacing: -5px;
     margin-right: 10px;
   }
-  .widget-now__detail{
+  .widget__temperature-min{
+    font-weight: 600;
+    font-size: 35px;
+    line-height: 1;
+    font-family: "Oswald",Arial,sans-serif!important;
+    color: #333;
+    width: auto;
+    margin-right: 10px;
+  }
+  .widget__detail{
     font-weight: 600;
     font-size: 18px;
     line-height: 1.3;
     font-family: "Oswald",Arial,sans-serif!important;
     color: #333;
   }
-  .widget-now__detail-info{
+  .widget__detail-info{
     display: flex;
   }
-  .widget-now__detail-box-name{
+  .widget__detail-box-name{
     margin-right: 10px;
   }
-  .widget-now__detail-name{
+  .widget__detail-name{
     margin: 0;
     font-weight: 400;
     font-size: 12px;
     text-align: start;
   }
-  .widget-now__detail-value{
+  .widget__detail-value{
     margin: 0;
     font-style: italic;
     font-weight: 600;
     font-size: 12px;
     text-align: start;
   }
-  .widget-now__compas{
+  .widget__compas{
     position: relative;
-    padding: 10px;
+    padding: 0 10px;
   }
-  .widget-now__image-arrow{
+  .widget__compas-box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .widget__wind-text{
+    font-size: 16px;
+    padding: 0;
+    margin: 0;
+    margin-bottom: 10px;
+  }
+  .widget__image-arrow{
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%)rotate(263deg);
+    /* transform: translate(-50%, -50%)rotate(263deg); */
 
   }
   .widget-loader{
@@ -210,3 +272,107 @@ margin-bottom: 10px;
     left: 50%;
     transform: translate(-50%, -50%);
   }
+  .widget-header{
+    float: left;
+    margin: 0;
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1;
+    font-family: "Roboto",Arial,sans-serif!important;
+    color: #333;
+    word-break: break-word;
+    max-width: 470px;
+  }
+  .widget__calendar{   
+  background-color: #fff;
+    margin-top: 5px;
+    border-radius: 10px;
+ height: 100%;
+    }
+    .calendar{
+      width: 400px;
+    }
+    
+.calendar__list {
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  margin: 5px;
+  padding: 0;}
+
+ .calendar__button-spred{
+  position: relative;
+padding: 0;
+height: 30px;
+width: 30px;
+background: none;
+border-radius: 50%;
+border: solid #feb020;
+
+  }
+  .calendar__icon-spred{
+    position: absolute;
+    height: 30px;
+    width: 30px; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%)rotate(180deg);
+    fill:#feb020;
+  }
+  .calendar__button-spred__active.calendar__icon-spred{
+    transform: translate(-50%, -50%)rotate(0deg);
+    fill:#926718;
+  }
+  .calendar__icon-spred:hover, .calendar__icon-spred:focus{
+    fill:#f4e000
+  }
+  .calendar__item{
+    height: auto;
+    background-color: #ffc1071c;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    margin: 1px;
+    border-radius: 10px;
+  }
+
+  .calendar__item:hover, .calendar__icon-spred:focus {
+    transform: scale(1.1);
+  }
+  .calendar__title{
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1.3;
+    font-family: "Oswald",Arial,sans-serif!important;
+    color: #333;
+    margin: 0;
+  }
+  .calendar__image-box{
+height: 100px;
+  }
+  .calendar__image{
+    margin-top: -10px;
+  }
+  .calendar__image-description{
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1.3;
+    font-family: "Oswald",Arial,sans-serif!important;
+    color: #333;
+    margin: 0;
+    margin-top: -15px;
+  }
+  .calendar__temp{
+    margin-bottom: 10px;
+  }
+  .calendar__temp-text{
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.3;
+    font-family: "Oswald",Arial,sans-serif!important;
+    color: #333;
+   
+  }
+
+  
