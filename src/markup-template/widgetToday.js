@@ -97,14 +97,14 @@ export const widgetToday = (data) => `
 <div class="widget__compas-box">
     <div class="widget__compas">
         <img
-            src="./src/images/compas.png"
+            src="src/images/compas.png"
             width="128"
             height="128"
             alt="Weather in Odesa, UA"
             class="widget__image-compas"
         />
         <img
-            src="./src/images/arrow.png"
+            src="src/images/arrow.png"
             width="90"
             height="90"
             alt="Weather in Odesa, UA"

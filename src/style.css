@@ -13,7 +13,7 @@
 
 }
 .hero{
-  background: linear-gradient(90deg,rgba(249, 166, 0, 0.1),rgba(255, 170, 1, 0.56)),50%/auto no-repeat url(/src/images/depositphotos_443560512-stock-photo-photos-of-sky-during-different.jpg),#feaa0244;
+  background: linear-gradient(90deg,rgba(249, 166, 0, 0.1),rgba(255, 170, 1, 0.56)),50%/auto no-repeat url(images/depositphotos_443560512-stock-photo-photos-of-sky-during-different.jpg),#feaa0244;
 }
 .form-search{
   display: flex;

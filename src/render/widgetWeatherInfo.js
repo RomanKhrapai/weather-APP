@@ -24,14 +24,14 @@ export const widgetWeatherInfo = (ref, data) => {
             <div class="widget__compas-box">
                     <div class="widget__compas">
                         <img
-                            src="./src/images/compas.png"
+                            src="src/images/compas.png"
                             width="70"
                             height="70"
                             alt="Weather in Odesa, UA"
                             class="widget__image-compas"
                         />
                         <img
-                            src="./src/images/arrow.png"
+                            src="src/images/arrow.png"
                             width="50"
                             height="50"
                             alt="Weather in Odesa, UA"
