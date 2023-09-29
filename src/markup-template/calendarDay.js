@@ -1,11 +1,15 @@
+import { renderDayInfo } from "../render/renderDayInfo.js";
 export const calendarDay = (ref, list) => {
-    console.log(list);
     ref.innerHTML =
         '<div class="calendar"> <ul class="calendar__list">' +
         list
             .map(
-                (elem) => `
-            <li class="calendar__item">
+                (elem, index) => `
+            <li class="calendar__list-item">
+            <div class="widget__info-day" >${renderDayInfo(elem)}</div> 
+              <div class="calendar__item" data-name="item-day" data-index="${
+                  elem.dt
+              }">
                 <p class="calendar__title"> ${elem.date}</p>
                 <div class="calendar__image-box">
                     <img
@@ -21,6 +25,7 @@ export const calendarDay = (ref, list) => {
                 ${elem.weather[0].description}
                 </p>
             </div>
+          
             <div class="calendar__temp">
             <span class="calendar__temp-text">${elem.main.temp.toFixed()}°C</span></div>
                 <button class="calendar__button-spred">
@@ -33,6 +38,7 @@ export const calendarDay = (ref, list) => {
                         </symbol>
                     </svg>
                 </button>
+                </div>
             </li>`
             )
             .join("") +

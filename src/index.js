@@ -9,14 +9,14 @@ import { renderLoader } from "./render/renderLoader.js";
 import { saveState } from "./localStorege/saveState.js";
 import { getState } from "./localStorege/getstate.js";
 import { renderPodcastForFiveDay } from "./render/renderPodcastForFiveDay.js";
+import { renderDayInfo } from "./render/renderDayInfo.js";
 
 const refs = {
     tabs: document.querySelector(".tab-buttons"),
-    textSearch: document.querySelector(".form-search__input"),
     buttonSearch: document.querySelector(".form-search__button"),
     sityesinfo: document.getElementById("show-land"),
     podcastInfo: document.querySelector(".tab-contents"),
-    tabContents: document.querySelectorAll(".tab-content"),
+    widget: document.querySelector("[widget]"),
 };
 
 const state = {
@@ -24,6 +24,12 @@ const state = {
     isOneDay: false,
     sity: "",
     sityes: [],
+    podcastList: {},
+    time: null,
+};
+
+const saveFetchData = (newData) => {
+    state.podcastList = newData;
 };
 
 const showPodcast = () => {
@@ -40,7 +46,8 @@ const showPodcast = () => {
     renderPodcastForFiveDay(
         state.selectedCoordinate,
         state.sityes,
-        refs.podcastInfo
+        refs.podcastInfo,
+        saveFetchData
     );
 };
 
@@ -74,8 +81,9 @@ const turnTabButton = () => {
 };
 
 const searchSity = (e) => {
-    event.preventDefault();
-    const searchRequest = refs.textSearch.value.trim();
+    e.preventDefault();
+    const refSearchSity = document.querySelector(".form-search__input");
+    const searchRequest = refSearchSity.value.trim();
     if (searchRequest !== "") {
         fetchSityInfo(searchRequest)
             .then((data) => {

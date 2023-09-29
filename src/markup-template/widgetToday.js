@@ -7,7 +7,7 @@ export const widgetToday = (data) => `
         </h2>
 </div>
 
-<div class="widget__info">
+<div class="widget__inform">
     <div class="widget__box-image">
         <img
             src="//openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/${
@@ -109,8 +109,8 @@ export const widgetToday = (data) => `
             height="90"
             alt="Weather in Odesa, UA"
             class="widget__image-arrow"
-            style="transform: translate(-50%, -50%)rotate(${
-                data.windDeg - 43
+            style="transform: translate(-50%, -53%)rotate(${
+                data.windDeg - 45
             }deg);"
         />
     </div>

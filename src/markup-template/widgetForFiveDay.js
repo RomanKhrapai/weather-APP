@@ -2,8 +2,8 @@ export const widgetForFiveDay = () => {
     return `
 <div class="widget">
   <div class="widget__layout">
-    <div class='widget__info-box' >
-
+    <div class='widget__info-box' data-widget-info >
+      
     </div>
     <div class="widget__calendar">
     

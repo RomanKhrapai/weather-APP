@@ -299,27 +299,31 @@ export const formatDate = (dt) => {
     let min = date.getMinutes();
     if (min < 10) min = "0" + min;
 
-    let Hour = date.getHours();
-    if (Hour < 10) Hour = "0" + Hour;
+    let hour = date.getHours();
+    if (hour < 10) hour = "0" + hour;
 
     return [
         dd + "." + mm + "." + yyyy,
-        d + ". " + dd + " " + m + ". " + Hour + ":" + min,
+        d + ". " + dd + " " + m + ". " + hour + ":" + min,
         d + ". " + dd + " ",
+        hour + ":" + min,
     ];
 };
 
 export const windWay = (windDeg) => {
     const rules = {
         0: { full: "Північний", min: "Пн" },
+        8: { full: "Північний", min: "Пн" },
         1: { full: "Північно - Східний", min: "Пн - Сх" },
-        2: { full: "Східний", min: "ПСх" },
+        2: { full: "Східний", min: "Сх" },
         3: { full: "Південно - Східний", min: "Пд - Сх" },
         4: { full: "Південний", min: "Пд" },
         5: { full: "Південно - Західний", min: "Пд - Зх" },
         6: { full: "Західний", min: "Зх" },
         7: { full: "Північно - Західний", min: "Пн - Зх" },
     };
-    const sector = (windDeg - 23) / 45;
-    return rules[sector.toFixed()];
+
+    const sector = (Math.abs(windDeg) / 45).toFixed();
+
+    return rules[sector];
 };

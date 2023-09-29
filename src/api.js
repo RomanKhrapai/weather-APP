@@ -21,8 +21,6 @@ export function fetchCurrentWeather(lat, lon) {
 }
 
 export function fetchForcastFiveDay(lat, lon) {
-    console.log(lat);
-    console.log(lon);
     return fetch(
         `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${APPID}&units=metric&lang=ua`
     ).then((response) => {

@@ -13,7 +13,7 @@ export const renderPodcasttoday = (coordinate, sityes, ref) => {
                 const chooseSity = sityes.find(
                     (sity) => sity.lat + "/" + sity.lon === coordinate
                 );
-
+                
                 if (chooseSity) {
                     ref.innerHTML = widgetToday({
                         icon: data.weather[0].icon,
