@@ -28,16 +28,20 @@ export const calendarDay = (ref, list) => {
           
             <div class="calendar__temp">
             <span class="calendar__temp-text">${elem.main.temp.toFixed()}°C</span></div>
-                <button class="calendar__button-spred">
-                    <svg class="calendar__icon-spred">
-                        <use xlink:href="#icon-circle-up"></use>
-                        <symbol id="icon-circle-up" viewBox="0 0 32 32">
-                            <path
-                                d="M22.086 20.914l2.829-2.829-8.914-8.914-8.914 8.914 2.828 2.828 6.086-6.086z"
-                            ></path>
-                        </symbol>
-                    </svg>
-                </button>
+            ${
+                // <button class="calendar__button-spred">
+                //     <svg class="calendar__icon-spred">
+                //         <use xlink:href="#icon-circle-up"></use>
+                //         <symbol id="icon-circle-up" viewBox="0 0 32 32">
+                //             <path
+                //                 d="M22.086 20.914l2.829-2.829-8.914-8.914-8.914 8.914 2.828 2.828 6.086-6.086z"
+                //             ></path>
+                //         </symbol>
+                //     </svg>
+                // </button>
+                ""
+            }
+                
                 </div>
             </li>`
             )

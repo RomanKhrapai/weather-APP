@@ -9,14 +9,21 @@ import { renderLoader } from "./render/renderLoader.js";
 import { saveState } from "./localStorege/saveState.js";
 import { getState } from "./localStorege/getstate.js";
 import { renderPodcastForFiveDay } from "./render/renderPodcastForFiveDay.js";
-import { renderDayInfo } from "./render/renderDayInfo.js";
+import { renderListStore } from "./render/renderListStore.js";
+import {
+    getCookiesStore,
+    addCookieStore,
+    removeCookieStore,
+} from "./cookie/cookieFunc.js";
 
 const refs = {
     tabs: document.querySelector(".tab-buttons"),
     buttonSearch: document.querySelector(".form-search__button"),
     sityesinfo: document.getElementById("show-land"),
     podcastInfo: document.querySelector(".tab-contents"),
-    widget: document.querySelector("[widget]"),
+    openStore: document.querySelector("[data-store-open]"),
+    listStore: document.querySelector("[data-list-store]"),
+    searchSity: document.querySelector(".form-search__input"),
 };
 
 const state = {
@@ -24,12 +31,7 @@ const state = {
     isOneDay: false,
     sity: "",
     sityes: [],
-    podcastList: {},
-    time: null,
-};
-
-const saveFetchData = (newData) => {
-    state.podcastList = newData;
+    store: [],
 };
 
 const showPodcast = () => {
@@ -38,6 +40,7 @@ const showPodcast = () => {
         renderPodcasttoday(
             state.selectedCoordinate,
             state.sityes,
+            state.sity,
             refs.podcastInfo
         );
         return;
@@ -46,8 +49,8 @@ const showPodcast = () => {
     renderPodcastForFiveDay(
         state.selectedCoordinate,
         state.sityes,
-        refs.podcastInfo,
-        saveFetchData
+        state.sity,
+        refs.podcastInfo
     );
 };
 
@@ -80,11 +83,15 @@ const turnTabButton = () => {
     }
 };
 
-const searchSity = (e) => {
+const clickSearchBtn = (e) => {
     e.preventDefault();
-    const refSearchSity = document.querySelector(".form-search__input");
-    const searchRequest = refSearchSity.value.trim();
+    const searchText = refs.searchSity.value.trim();
+    searchSity(searchText.replace(/[{}[\]\%/\\&\?\,\'\;:+!@#\$\^*)(]/g, ""));
+};
+
+const searchSity = (searchRequest) => {
     if (searchRequest !== "") {
+        refs.searchSity.value = searchRequest;
         fetchSityInfo(searchRequest)
             .then((data) => {
                 if (data.length === 0) {
@@ -95,35 +102,23 @@ const searchSity = (e) => {
                 state.sityes = data.map((sity) => ({
                     area: sity.state,
                     country: COUNTRY_NAME[sity.country],
-                    name: sity.name,
-                    localName: sity?.local_names?.uk ?? searchRequest,
+                    name: sity?.local_names?.uk ?? sity.name,
                     lat: sity.lat,
                     lon: sity.lon,
                 }));
-
+                const weatherdata = data[0];
                 state.sity = searchRequest;
+                state.selectedCoordinate =
+                    weatherdata.lat + "/" + weatherdata.lon;
 
-                if (data.length === 1) {
-                    const weatherdata = data[0];
-
-                    state.selectedCoordinate =
-                        weatherdata.lat + "/" + weatherdata.lon;
-
-                    refs.sityesinfo.innerHTML = `<h2> Погода в місті "${searchRequest}"</h2>`;
-                } else {
-                    renderListSityes(state.sityes, state.sity, refs.sityesinfo);
-                    state.selectedCoordinate =
-                        state.sityes[0].lat + "/" + state.sityes[0].lon;
-                    refs.sityesinfo.querySelector(
-                        ".custom-radio"
-                    ).checked = true;
-                }
+                renderListSityes(state.sityes, state.sity, refs.sityesinfo);
                 showPodcast();
                 saveState({
                     sityes: state.sityes,
                     sity: state.sity,
                     selectedCoordinate: state.selectedCoordinate,
                 });
+                saveStore(searchRequest);
             })
             .catch((error) => {
                 if (error == "Error: 404") {
@@ -148,13 +143,59 @@ const startRadioSelected = (coordinate) => {
         ).checked = true;
     }
 
+    state.store = getCookiesStore();
+    refs.searchSity.value = state.sity;
+
     turnTabButton();
     showPodcast();
+
+    refs.listStore.innerHTML = renderListStore(state.store);
+};
+const modalTogle = () => {};
+
+const saveStore = (name) => {
+    if (state.store.some((item) => item === name)) return;
+
+    state.store.push(name);
+
+    if (state.store.length > 5) {
+        removeCookieStore(state.store[0]);
+        state.store.splice(0, 1);
+    }
+
+    addCookieStore(name);
+
+    refs.listStore.innerHTML = renderListStore(state.store);
+};
+
+const selectItemStore = (name) => {
+    refs.searchSity.value = name;
+    searchSity(name);
+};
+
+const removeItemStore = (name) => {
+    state.store = state.store.filter((item) => item !== name);
+    refs.listStore.innerHTML = renderListStore(state.store);
+    removeCookieStore(name);
+};
+
+const clickItemStore = (e) => {
+    const elem = e?.target ?? e;
+
+    if (elem?.dataset?.listStore) return;
+
+    if (elem?.dataset?.storeRemove) {
+        return removeItemStore(elem.dataset.storeRemove);
+    } else if (elem?.dataset?.name) {
+        return selectItemStore(elem.dataset.name);
+    } else clickItemStore(elem.parentElement);
 };
 
 refs.tabs.addEventListener("click", tabButtonClick);
-refs.buttonSearch.addEventListener("click", searchSity);
+refs.buttonSearch.addEventListener("click", clickSearchBtn);
 refs.sityesinfo.addEventListener("click", selectCoordinateClick);
+refs.openStore.addEventListener("click", modalTogle);
+refs.listStore.addEventListener("click", clickItemStore);
 
 Object.assign(state, getState());
 

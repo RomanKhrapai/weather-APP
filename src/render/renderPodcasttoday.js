@@ -4,7 +4,7 @@ import { COUNTRY_NAME } from "../defaultValue.js";
 import { windWay, formatDate } from "../help.js";
 import { renderWidgetErorr } from "./renderWidgetErorr.js";
 
-export const renderPodcasttoday = (coordinate, sityes, ref) => {
+export const renderPodcasttoday = (coordinate, sityes, name, ref) => {
     if (coordinate) {
         const coordinateArray = coordinate.split("/");
 
@@ -13,25 +13,23 @@ export const renderPodcasttoday = (coordinate, sityes, ref) => {
                 const chooseSity = sityes.find(
                     (sity) => sity.lat + "/" + sity.lon === coordinate
                 );
-                
-                if (chooseSity) {
-                    ref.innerHTML = widgetToday({
-                        icon: data.weather[0].icon,
-                        description: data.weather[0].description,
-                        sity: chooseSity.localName,
-                        nameCountry: COUNTRY_NAME[data.sys.country],
-                        state: chooseSity.area,
-                        date: formatDate(data.dt),
-                        temp: data.main.temp,
-                        FeelsLike: data.main.feels_like,
-                        pressure: data.main.pressure,
-                        humidity: data.main.humidity,
-                        windSpead: data.wind.speed,
-                        windDeg: data.wind.deg,
-                        main: data.weather.main,
-                        windWay: windWay(data.wind.deg),
-                    });
-                }
+
+                ref.innerHTML = widgetToday({
+                    icon: data.weather[0].icon,
+                    description: data.weather[0].description,
+                    sity: chooseSity?.name ?? name,
+                    nameCountry: COUNTRY_NAME[data.sys.country],
+                    state: chooseSity?.area ?? "",
+                    date: formatDate(data.dt),
+                    temp: data.main.temp,
+                    FeelsLike: data.main.feels_like,
+                    pressure: data.main.pressure,
+                    humidity: data.main.humidity,
+                    windSpead: data.wind.speed,
+                    windDeg: data.wind.deg,
+                    main: data.weather.main,
+                    windWay: windWay(data.wind.deg),
+                });
             })
 
             .catch((error) => {

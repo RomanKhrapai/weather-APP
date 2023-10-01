@@ -4,12 +4,12 @@ export const renderListSityes = (sityes, sity, ref) => {
         sityes.forEach((elem, index) => {
             str += `<input type="radio" class="custom-radio" id="${elem.lat}/${
                 elem.lon
-            }" name="area" >
+            }" name="area" ${index === 0 ? "checked" : ""}>
 <label for="${elem.lat}/${elem.lon}">${elem.country} ${
                 elem.area ? "(" + elem.area + ")" : ""
             }  </label>`;
         });
     }
 
-    ref.innerHTML = `<h2> Погода в місті "${sity}"</h2><form class='form-area'> ${str}</form>`;
+    ref.innerHTML = `<h2> Погода за запитом "${sity}"</h2><form class='form-area'> ${str}</form>`;
 };

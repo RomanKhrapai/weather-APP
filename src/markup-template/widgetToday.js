@@ -1,10 +1,14 @@
 export const widgetToday = (data) => `
 <div class="widget">
-<div class="widget__layout">
+<div class="widget__block">
         <h2 class="widget__title">
             ${data.sity},<br> ${data.nameCountry}
             ${data.state ? "(" + data.state + ")" : ""}
         </h2>
+       ${
+           ""
+           // <button class="save-btn" data-save-store='true'> Зберегти місце в історію </button>
+       }
 </div>
 
 <div class="widget__inform">
