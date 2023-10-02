@@ -70,6 +70,7 @@ background-color: #2e3744b2;
 }
 
 .page {
+  position: relative;
     width: 800px;
     margin-left: auto;
     margin-right: auto;
@@ -349,6 +350,7 @@ padding-right: 10px;}
   }
   .widget-loader{
     position: relative;
+    background: radial-gradient(rgb(255, 255, 255) 200px, #feb020 50%);
     background-color: #fff;
     width: 90%;
     height: 200px;
@@ -478,4 +480,23 @@ height: 100px;
    
   }
 
-  
+  .noteify{
+    position: absolute;
+     top:-50px;
+    /* left: calc(50% - 100px);  */
+    right: 1%;
+    background-color: rgba(255, 179, 0, 0.784);
+    height: 40px;
+   min-width: 200px;
+    transition-duration: 1s;
+    transform: translate(0,-50px);
+    border-radius: 10px;
+    border: solid #c48e29;
+    text-align: center;
+    padding: 15px  15px 0 15px   ;
+    font-size: 18px;
+  }
+  .noteify-active{
+    transition-duration: 1s;
+    transform: translate(0,100px);
+  }

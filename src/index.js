@@ -15,6 +15,7 @@ import {
     addCookieStore,
     removeCookieStore,
 } from "./cookie/cookieFunc.js";
+import { noteify } from "./noteify.js";
 
 const refs = {
     tabs: document.querySelector(".tab-buttons"),
@@ -95,7 +96,7 @@ const searchSity = (searchRequest) => {
         fetchSityInfo(searchRequest)
             .then((data) => {
                 if (data.length === 0) {
-                    alert("Такого міста не знайдено");
+                    noteify("Такого міста не знайдено");
                     return;
                 }
 
