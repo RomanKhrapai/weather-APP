@@ -1,4 +1,4 @@
-import { getState } from "./getstate.js";
+import { getState } from "./getState.js";
 import { saveState } from "./saveState.js";
 
 export default {
