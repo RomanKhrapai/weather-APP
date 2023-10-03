@@ -11,5 +11,9 @@ export const listCityes = (cityes, city, ref) => {
         });
     }
 
+    if (city.trim() === "") {
+        ref.innerHTML = `<h2> Введіть назву міста</h2>`;
+        return;
+    }
     ref.innerHTML = `<h2> Погода за запитом "${city}"</h2><form class='form-area'> ${str}</form>`;
 };
