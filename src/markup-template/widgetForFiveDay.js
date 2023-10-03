@@ -7,7 +7,6 @@ export const widgetForFiveDay = () => {
     </div>
     <div class="widget__calendar">
     
-      
     </div>
   </div>
 </div>`;

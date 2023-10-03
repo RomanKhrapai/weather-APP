@@ -24,3 +24,5 @@ export const removeCookieStore = (name) => {
             document.cookie = `${arr[0]}=${name}; secure; max-age=-1`;
     });
 };
+
+export default { removeCookieStore, getCookiesStore, addCookieStore };

@@ -13,7 +13,7 @@ export const widgetWeatherInfo = (data) => {
                     }.png"
                     width="100"
                     height="100"
-                    alt="Погода у ${data.sity}"
+                    alt="Погода у ${data.city}"
                     class="widget__image"
                 />
                 <p

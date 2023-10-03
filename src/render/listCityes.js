@@ -1,7 +1,7 @@
-export const renderListSityes = (sityes, sity, ref) => {
+export const listCityes = (cityes, city, ref) => {
     let str = "";
-    if (sityes.length > 1) {
-        sityes.forEach((elem, index) => {
+    if (cityes.length > 1) {
+        cityes.forEach((elem, index) => {
             str += `<input type="radio" class="custom-radio" id="${elem.lat}/${
                 elem.lon
             }" name="area" ${index === 0 ? "checked" : ""}>
@@ -11,5 +11,5 @@ export const renderListSityes = (sityes, sity, ref) => {
         });
     }
 
-    ref.innerHTML = `<h2> Погода за запитом "${sity}"</h2><form class='form-area'> ${str}</form>`;
+    ref.innerHTML = `<h2> Погода за запитом "${city}"</h2><form class='form-area'> ${str}</form>`;
 };

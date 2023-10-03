@@ -1,5 +1,5 @@
 import { APPID } from "./defaultValue.js";
-export function fetchSityInfo(name) {
+export function fetchcityInfo(name) {
     return fetch(
         `https://api.openweathermap.org/geo/1.0/direct?q=${name}&limit=5&appid=${APPID}`
     ).then((response) => {

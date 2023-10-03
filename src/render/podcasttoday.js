@@ -2,24 +2,24 @@ import { fetchCurrentWeather } from "../api.js";
 import { widgetToday } from "../markup-template/widgetToday.js";
 import { COUNTRY_NAME } from "../defaultValue.js";
 import { windWay, formatDate } from "../help.js";
-import { renderWidgetErorr } from "./renderWidgetErorr.js";
+import { widgetErorr } from "./widgetErorr.js";
 
-export const renderPodcasttoday = (coordinate, sityes, name, ref) => {
+export const podcasttoday = (coordinate, cityes, name, ref) => {
     if (coordinate) {
         const coordinateArray = coordinate.split("/");
 
         fetchCurrentWeather(coordinateArray[0], coordinateArray[1])
             .then((data) => {
-                const chooseSity = sityes.find(
-                    (sity) => sity.lat + "/" + sity.lon === coordinate
+                const choosecity = cityes.find(
+                    (city) => city.lat + "/" + city.lon === coordinate
                 );
 
                 ref.innerHTML = widgetToday({
                     icon: data.weather[0].icon,
                     description: data.weather[0].description,
-                    sity: chooseSity?.name ?? name,
+                    city: choosecity?.name ?? name,
                     nameCountry: COUNTRY_NAME[data.sys.country],
-                    state: chooseSity?.area ?? "",
+                    state: choosecity?.area ?? "",
                     date: formatDate(data.dt),
                     temp: data.main.temp,
                     FeelsLike: data.main.feels_like,
@@ -34,10 +34,10 @@ export const renderPodcasttoday = (coordinate, sityes, name, ref) => {
 
             .catch((error) => {
                 if (error == "Error: 404") {
-                    renderWidgetErorr("Вибачте сталася помилка сервера 404!");
+                    widgetErorr("Вибачте сталася помилка сервера 404!");
                     return console.log("Oops");
                 }
-                renderWidgetErorr("Вибачте сталася помилка!");
+                widgetErorr("Вибачте сталася помилка!");
                 console.log(error);
             });
     }

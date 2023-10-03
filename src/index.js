@@ -1,64 +1,52 @@
-import { fetchSityInfo } from "./api.js";
-
+import { fetchcityInfo } from "./api.js";
 import { COUNTRY_NAME } from "./defaultValue.js";
-
-import { renderPodcasttoday } from "./render/renderPodcasttoday.js";
-import { renderListSityes } from "./render/renderListSityes.js";
-import { renderWidgetErorr } from "./render/renderWidgetErorr.js";
-import { renderLoader } from "./render/renderLoader.js";
-import { saveState } from "./localStorege/saveState.js";
-import { getState } from "./localStorege/getstate.js";
-import { renderPodcastForFiveDay } from "./render/renderPodcastForFiveDay.js";
-import { renderListStore } from "./render/renderListStore.js";
-import {
-    getCookiesStore,
-    addCookieStore,
-    removeCookieStore,
-} from "./cookie/cookieFunc.js";
+import cookie from "./cookie/cookieFunc.js";
 import { noteify } from "./noteify.js";
+import localStorage from "/src/local-storage/index.js";
+import render from "./render/index.js";
 
 const refs = {
     tabs: document.querySelector(".tab-buttons"),
     buttonSearch: document.querySelector(".form-search__button"),
-    sityesinfo: document.getElementById("show-land"),
+    cityesInfo: document.getElementById("show-land"),
     podcastInfo: document.querySelector(".tab-contents"),
     openStore: document.querySelector("[data-store-open]"),
     listStore: document.querySelector("[data-list-store]"),
-    searchSity: document.querySelector(".form-search__input"),
+    searchCity: document.querySelector(".form-search__input"),
 };
 
 const state = {
     selectedCoordinate: null,
     isOneDay: false,
-    sity: "",
-    sityes: [],
+    city: "",
+    cityes: [],
     store: [],
 };
 
 const showPodcast = () => {
-    renderLoader(refs.podcastInfo);
+    render.loader(refs.podcastInfo);
+
     if (state.isOneDay) {
-        renderPodcasttoday(
+        render.podcasttoday(
             state.selectedCoordinate,
-            state.sityes,
-            state.sity,
+            state.cityes,
+            state.city,
             refs.podcastInfo
         );
-        return;
+    } else {
+        render.podcastForFiveDay(
+            state.selectedCoordinate,
+            state.cityes,
+            state.city,
+            refs.podcastInfo
+        );
     }
-
-    renderPodcastForFiveDay(
-        state.selectedCoordinate,
-        state.sityes,
-        state.sity,
-        refs.podcastInfo
-    );
 };
 
 const selectCoordinateClick = (e) => {
     if (e.target.tagName === "INPUT") {
         state.selectedCoordinate = e.target.id;
-        saveState({ selectedCoordinate: e.target.id });
+        localStorage.saveState({ selectedCoordinate: e.target.id });
 
         showPodcast();
     }
@@ -67,9 +55,10 @@ const selectCoordinateClick = (e) => {
 const tabButtonClick = (e) => {
     const isOneDay = e.target.dataset.time === "now" ? true : false;
     state.isOneDay = isOneDay;
+
     turnTabButton();
     showPodcast();
-    saveState({ isOneDay });
+    localStorage.saveState({ isOneDay });
 };
 
 const turnTabButton = () => {
@@ -86,55 +75,61 @@ const turnTabButton = () => {
 
 const clickSearchBtn = (e) => {
     e.preventDefault();
-    const searchText = refs.searchSity.value.trim();
-    searchSity(searchText.replace(/[{}[\]\%/\\&\?\,\'\;:+!@#\$\^*)(]/g, ""));
+    const searchText = refs.searchCity.value.trim();
+    searchCity(searchText.replace(/[{}[\]\%/\\&\?\,\'\;:+!@#\$\^*)(]/g, ""));
 };
 
-const searchSity = (searchRequest) => {
-    if (searchRequest !== "") {
-        refs.searchSity.value = searchRequest;
-        fetchSityInfo(searchRequest)
-            .then((data) => {
-                if (data.length === 0) {
-                    noteify("Такого міста не знайдено");
-                    return;
-                }
-
-                state.sityes = data.map((sity) => ({
-                    area: sity.state,
-                    country: COUNTRY_NAME[sity.country],
-                    name: sity?.local_names?.uk ?? sity.name,
-                    lat: sity.lat,
-                    lon: sity.lon,
-                }));
-                const weatherdata = data[0];
-                state.sity = searchRequest;
-                state.selectedCoordinate =
-                    weatherdata.lat + "/" + weatherdata.lon;
-
-                renderListSityes(state.sityes, state.sity, refs.sityesinfo);
-                showPodcast();
-                saveState({
-                    sityes: state.sityes,
-                    sity: state.sity,
-                    selectedCoordinate: state.selectedCoordinate,
-                });
-                saveStore(searchRequest);
-            })
-            .catch((error) => {
-                if (error == "Error: 404") {
-                    renderWidgetErorr("Вибачте сталася помилка сервера 404!");
-
-                    return console.log("Oops");
-                }
-                renderWidgetErorr("Вибачте сталася помилка!");
-                console.log(error);
-            });
+const searchCity = (searchRequest) => {
+    if (searchRequest === "") {
+        noteify("Введіть назву міста");
+        refs.searchCity.value = "";
+        return;
     }
+
+    refs.searchCity.value = searchRequest;
+
+    fetchcityInfo(searchRequest)
+        .then((data) => {
+            if (data.length === 0) {
+                noteify("Такого міста не знайдено");
+                return;
+            }
+
+            state.cityes = data.map((city) => ({
+                area: city.state,
+                country: COUNTRY_NAME[city.country],
+                name: city?.local_names?.uk ?? city.name,
+                lat: city.lat,
+                lon: city.lon,
+            }));
+
+            const weatherdata = data[0];
+
+            state.city = searchRequest;
+            state.selectedCoordinate = weatherdata.lat + "/" + weatherdata.lon;
+            localStorage.saveState({
+                cityes: state.cityes,
+                city: state.city,
+                selectedCoordinate: state.selectedCoordinate,
+            });
+            saveStore(searchRequest);
+
+            render.listCityes(state.cityes, state.city, refs.cityesInfo);
+            showPodcast();
+        })
+        .catch((error) => {
+            if (error == "Error: 404") {
+                render.widgetErorr("Вибачте сталася помилка сервера 404!");
+
+                return console.log("Oops");
+            }
+            render.widgetErorr("Вибачте сталася помилка!");
+            console.log(error);
+        });
 };
 
 const startRadioSelected = (coordinate) => {
-    const radioButtons = refs.sityesinfo.querySelectorAll(".custom-radio");
+    const radioButtons = refs.cityesInfo.querySelectorAll(".custom-radio");
     if (!coordinate) {
         return;
     }
@@ -144,15 +139,14 @@ const startRadioSelected = (coordinate) => {
         ).checked = true;
     }
 
-    state.store = getCookiesStore();
-    refs.searchSity.value = state.sity;
+    state.store = cookie.getCookiesStore();
+    refs.searchCity.value = state.city;
 
     turnTabButton();
     showPodcast();
 
-    refs.listStore.innerHTML = renderListStore(state.store);
+    render.listStore(state.store, refs.listStore);
 };
-const modalTogle = () => {};
 
 const saveStore = (name) => {
     if (state.store.some((item) => item === name)) return;
@@ -160,24 +154,24 @@ const saveStore = (name) => {
     state.store.push(name);
 
     if (state.store.length > 5) {
-        removeCookieStore(state.store[0]);
+        cookie.removeCookieStore(state.store[0]);
         state.store.splice(0, 1);
     }
 
-    addCookieStore(name);
+    cookie.addCookieStore(name);
 
-    refs.listStore.innerHTML = renderListStore(state.store);
+    render.listStore(state.store, refs.listStore);
 };
 
 const selectItemStore = (name) => {
-    refs.searchSity.value = name;
-    searchSity(name);
+    refs.searchCity.value = name;
+    searchCity(name);
 };
 
 const removeItemStore = (name) => {
     state.store = state.store.filter((item) => item !== name);
-    refs.listStore.innerHTML = renderListStore(state.store);
-    removeCookieStore(name);
+    render.listStore(state.store, refs.listStore);
+    cookie.removeCookieStore(name);
 };
 
 const clickItemStore = (e) => {
@@ -194,11 +188,10 @@ const clickItemStore = (e) => {
 
 refs.tabs.addEventListener("click", tabButtonClick);
 refs.buttonSearch.addEventListener("click", clickSearchBtn);
-refs.sityesinfo.addEventListener("click", selectCoordinateClick);
-refs.openStore.addEventListener("click", modalTogle);
+refs.cityesInfo.addEventListener("click", selectCoordinateClick);
 refs.listStore.addEventListener("click", clickItemStore);
 
-Object.assign(state, getState());
+Object.assign(state, localStorage.getState());
 
-renderListSityes(state.sityes, state.sity, refs.sityesinfo);
+render.listCityes(state.cityes, state.city, refs.cityesInfo);
 startRadioSelected(state.selectedCoordinate);

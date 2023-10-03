@@ -2,8 +2,8 @@ export const getState = () => {
     const selectedCoordinate =
         localStorage.getItem("selectedCoordinate") ?? null;
     const isOneDay = JSON.parse(localStorage.getItem("isOneDay")) ?? true;
-    const sity = localStorage.getItem("sity") ?? "";
-    const sityes = JSON.parse(localStorage.getItem("sityes")) ?? [];
+    const city = localStorage.getItem("city") ?? "";
+    const cityes = JSON.parse(localStorage.getItem("cityes")) ?? [];
 
-    return { selectedCoordinate, isOneDay, sity, sityes };
+    return { selectedCoordinate, isOneDay, city, cityes };
 };

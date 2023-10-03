@@ -1,7 +1,7 @@
-import { widgetWeatherInfo } from "./widgetWeatherInfo.js";
+import { widgetWeatherInfo } from "../markup-template/widgetWeatherInfo.js";
 import { formatDate, windWay } from "../help.js";
 
-export const renderDayInfo = (weatherInfo) => {
+export const dayInfo = (weatherInfo) => {
     return widgetWeatherInfo({
         time: formatDate(weatherInfo.dt)[3],
         icon: weatherInfo.weather[0].icon,

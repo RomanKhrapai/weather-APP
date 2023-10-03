@@ -1,9 +1,11 @@
-export const renderListStore = (names) => {
-    if (names.length === 0)
-        return ` <li class="store-list-item">
+export const listStore = (names, ref) => {
+    if (names.length === 0) {
+        ref.innerHTML = ` <li class="store-list-item">
   Історія пуста
     </li>`;
-    return names
+        return;
+    }
+    ref.innerHTML = names
         .map(
             (name) =>
                 ` 

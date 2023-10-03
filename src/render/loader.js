@@ -1,4 +1,4 @@
-export const renderLoader = (ref) => {
+export const loader = (ref) => {
     ref.innerHTML = `
     <div class="widget">
         <div class="widget-loader">

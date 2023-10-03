@@ -2,23 +2,23 @@ import { fetchForcastFiveDay } from "../api.js";
 import { widgetForFiveDay } from "../markup-template/widgetForFiveDay.js";
 import { COUNTRY_NAME } from "../defaultValue.js";
 import { windWay, formatDate } from "../help.js";
-import { renderWidgetErorr } from "./renderWidgetErorr.js";
-import { widgetWeatherInfo } from "./widgetWeatherInfo.js";
-import { calendarDay } from "../markup-template/calendarDay.js";
+import { widgetErorr } from "./widgetErorr.js";
+import { widgetWeatherInfo } from "../markup-template/widgetWeatherInfo.js";
+import { calendarDay } from "./calendarDay.js";
 
-export const renderPodcastForFiveDay = (coordinate, sityes, name, ref) => {
+export const podcastForFiveDay = (coordinate, cityes, name, ref) => {
     if (coordinate) {
         const coordinateArray = coordinate.split("/");
 
         fetchForcastFiveDay(coordinateArray[0], coordinateArray[1])
             .then((data) => {
-                const chooseSity = sityes.find(
-                    (sity) => sity.lat + "/" + sity.lon === coordinate
+                const choosecity = cityes.find(
+                    (city) => city.lat + "/" + city.lon === coordinate
                 );
 
                 ref.innerHTML = widgetForFiveDay({
-                    sity: chooseSity?.name ?? name,
-                    state: chooseSity?.area ?? "",
+                    city: choosecity?.name ?? name,
+                    state: choosecity?.area ?? "",
                 });
 
                 ref.querySelector("[data-widget-info]").innerHTML =
@@ -51,10 +51,10 @@ export const renderPodcastForFiveDay = (coordinate, sityes, name, ref) => {
 
             .catch((error) => {
                 if (error == "Error: 404") {
-                    renderWidgetErorr("Вибачте сталася помилка сервера 404!");
+                    widgetErorr("Вибачте сталася помилка сервера 404!");
                     return console.log("Oops");
                 }
-                // renderWidgetErorr("Вибачте сталася помилка!");
+                widgetErorr("Вибачте сталася помилка!");
 
                 console.log(error);
             });

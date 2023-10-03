@@ -2,13 +2,9 @@ export const widgetToday = (data) => `
 <div class="widget">
 <div class="widget__block">
         <h2 class="widget__title">
-            ${data.sity},<br> ${data.nameCountry}
+            ${data.city},<br> ${data.nameCountry}
             ${data.state ? "(" + data.state + ")" : ""}
         </h2>
-       ${
-           ""
-           // <button class="save-btn" data-save-store='true'> Зберегти місце в історію </button>
-       }
 </div>
 
 <div class="widget__inform">
@@ -19,7 +15,7 @@ export const widgetToday = (data) => `
             }.png"
             width="128"
             height="128"
-            alt="Погода у ${data.sity}"
+            alt="Погода у ${data.city}"
             class="widget__image"
         />
         <p
