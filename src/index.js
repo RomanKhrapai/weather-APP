@@ -2,7 +2,7 @@ import { fetchcityInfo } from "./api.js";
 import { COUNTRY_NAME } from "./defaultValue.js";
 import cookie from "./cookie/cookieFunc.js";
 import { noteify } from "./noteify.js";
-import localStorage from "/src/local-storage/index.js";
+import localStorage from "./src/local-storage/index.js";
 import render from "./render/index.js";
 
 const refs = {
