@@ -4,16 +4,42 @@ import cookie from "./cookie/cookieFunc.js";
 import { noteify } from "./noteify.js";
 import localStorage from "./local-storage/index.js";
 import render from "./render/index.js";
+import refs from "./refs.js";
 
-const refs = {
-    tabs: document.querySelector(".tab-buttons"),
-    buttonSearch: document.querySelector(".form-search__button"),
-    cityesInfo: document.getElementById("show-land"),
-    podcastInfo: document.querySelector(".tab-contents"),
-    openStore: document.querySelector("[data-store-open]"),
-    listStore: document.querySelector("[data-list-store]"),
-    searchCity: document.querySelector(".form-search__input"),
+const options = {
+    moduleCache: {
+        vue: Vue,
+    },
+    async getFile(url) {
+        const res = await fetch(url);
+        if (!res.ok)
+            throw Object.assign(new Error(res.statusText + " " + url), { res });
+        return {
+            getContentData: (asBinary) =>
+                asBinary ? res.arrayBuffer() : res.text(),
+        };
+    },
+    addStyle(textContent) {
+        const style = Object.assign(document.createElement("style"), {
+            textContent,
+        });
+        const ref = document.head.getElementsByTagName("style")[0] || null;
+        document.head.insertBefore(style, ref);
+    },
 };
+
+const { loadModule } = window["vue3-sfc-loader"];
+
+const app = Vue.createApp({
+    components: {
+        App: Vue.defineAsyncComponent(() =>
+            loadModule("./src/App.vue", options)
+        ),
+    },
+    template: "<App></App>",
+});
+
+const searchBox = app.mount("#user-box");
 
 const state = {
     selectedCoordinate: null,

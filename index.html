@@ -27,6 +27,8 @@
 
                     <span class="header__logo">Weather App</span>
                 </a>
+
+                <div id="user-box"></div>
                 <div class="store-box">
                     <button class="store-btn" data-store-open>
                         <svg class="icon icon-book" width="32" height="32">
@@ -76,6 +78,7 @@
                             </svg>
                         </button>
                     </form>
+
                     <div id="show-land" class="show-land"></div>
                 </div>
                 <div class="tab">
@@ -86,7 +89,7 @@
                         >
                             На сьогодні
                         </button>
-                        <button data-time="five-day" ="" class="tab-button">
+                        <button data-time="five-day" class="tab-button">
                             На 5 днів
                         </button>
                     </div>
@@ -96,7 +99,8 @@
             <div id="noteify" class="noteify"></div>
         </div>
         <div id="open"></div>
-
+        <script src="https://unpkg.com/vue@next"></script>
+        <script src="https://cdn.jsdelivr.net/npm/vue3-sfc-loader/dist/vue3-sfc-loader.js"></script>
         <script src="./src/index.js" type="module"></script>
     </body>
 </html>
