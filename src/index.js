@@ -19,6 +19,7 @@ const options = {
                 asBinary ? res.arrayBuffer() : res.text(),
         };
     },
+
     addStyle(textContent) {
         const style = Object.assign(document.createElement("style"), {
             textContent,
@@ -39,7 +40,18 @@ const app = Vue.createApp({
     template: "<App></App>",
 });
 
-const searchBox = app.mount("#user-box");
+app.mount("#user-box");
+
+const appFooter = Vue.createApp({
+    components: {
+        AppFooter: Vue.defineAsyncComponent(() =>
+            loadModule("./src/AppFooter.vue", options)
+        ),
+    },
+    template: "<AppFooter></AppFooter>",
+});
+
+appFooter.mount("#footer");
 
 const state = {
     selectedCoordinate: null,
